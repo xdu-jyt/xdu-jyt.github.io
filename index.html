@@ -152,6 +152,46 @@
 
     <div class="post-header index">
         <h1 class="title">
+            <a href="/2022/07/27/JYT-s-Leetcode-Solution-3/">
+                JYT's Leetcode Solution(3)
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2022-07-27</span>
+            
+            
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <h2 id="1-题目描述"><a href="#1-题目描述" class="headerlink" title="1 题目描述"></a>1 题目描述</h2><p><strong>题14 最长公共前缀</strong></p>
+<p>编写一个函数来查找字符串数组中的最长公共前缀。如果不存在公共前缀，返回空字符串””。</p>
+<p><strong>示例1</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：strs = [&quot;flower&quot;,&quot;flow&quot;,&quot;flight&quot;]</span><br><span class="line">输出：&quot;fl&quot;</span><br></pre></td></tr></table></figure>
+<p><strong>示例2</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：strs = [&quot;dog&quot;,&quot;racecar&quot;,&quot;car&quot;]</span><br><span class="line">输出：&quot;&quot;</span><br><span class="line">解释：输入不存在公共前缀。</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-问题解法"><a href="#2-问题解法" class="headerlink" title="2 问题解法"></a>2 问题解法</h2><h3 id="2-1-显而易见的办法"><a href="#2-1-显而易见的办法" class="headerlink" title="2.1 显而易见的办法"></a>2.1 显而易见的办法</h3><p>乍一看，我们很容易想到比较字符串数组中各字符串的第一个字符，若全部相同，再比较第二个，以此类推。显然，此解法的时间复杂度为O(n^2)。经过测试，部分样例超出时间限制。</p>
+<h3 id="2-2-仔细想想"><a href="#2-2-仔细想想" class="headerlink" title="2.2 仔细想想"></a>2.2 仔细想想</h3><p>在大部分编程语言中，不仅数值型数据可以比较大小，字符串也可以比较大小。比较大小时，计算机会从前往后依次比较字符串各个字符ASCLL码值的大小，直至出现不等。那么，一个字符串数组中最大的与最小的字符串之间有什么关系呢？在示例1中，最大字符串为flower，最小字符串为flight，它们的最长公共前缀fl即为整个数组的最长公共前缀。这样的规律是普遍的。因此，我们可以先求出字符串数组的最大与最小的字符串，然后求出它们的最长公共前缀，，从而得到所求结果。此算法的时间复杂度只有O(n)。</p>
+<h2 id="3-求解代码"><a href="#3-求解代码" class="headerlink" title="3 求解代码"></a>3 求解代码</h2><ul>
+<li>c++代码<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function">string <span class="title">longestCommonPrefix</span><span class="params">(vector&lt;string&gt;&amp; strs)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> num = strs.<span class="built_in">size</span>();</span><br><span class="line">        <span class="comment">//求字符串数组中最大与最小的字符串</span></span><br><span class="line">        string maxs = strs[<span class="number">0</span>];</span><br><span class="line">        string mins = strs[<span class="number">0</span>];</span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">1</span>; i &lt; num; i++)&#123;</span><br><span class="line">            <span class="keyword">if</span>(strs[i] &gt; maxs)&#123;</span><br><span class="line">                maxs = strs[i];</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>(strs[i] &lt; mins)&#123;</span><br><span class="line">                mins = strs[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//求两字符串的最长公共前缀</span></span><br><span class="line">        string re = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="type">int</span> pos = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(pos &lt; maxs.<span class="built_in">length</span>() &amp;&amp; pos &lt; mins.<span class="built_in">length</span>())&#123;</span><br><span class="line">            <span class="keyword">if</span>(maxs[pos] == mins[pos])&#123;</span><br><span class="line">                re += maxs[pos];</span><br><span class="line">                pos++;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> re;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li>python代码<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">longestCommonPrefix</span>(<span class="params">self, strs: <span class="type">List</span>[<span class="built_in">str</span>]</span>) -&gt; <span class="built_in">str</span>:</span><br><span class="line">        s1 = <span class="built_in">min</span>(strs)</span><br><span class="line">        s2 = <span class="built_in">max</span>(strs)</span><br><span class="line">        <span class="keyword">for</span> i,x <span class="keyword">in</span> <span class="built_in">enumerate</span>(s1):</span><br><span class="line">            <span class="keyword">if</span> x != s2[i]:</span><br><span class="line">                <span class="keyword">return</span> s2[:i]</span><br><span class="line">        <span class="keyword">return</span> s1</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="4-总结"><a href="#4-总结" class="headerlink" title="4 总结"></a>4 总结</h2><p>找出规律，复杂度O(n^2)的算法可以化简到O(n)。</p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
             <a href="/2022/07/15/JYT-s-Leetcode-Solution-2/">
                 JYT's Leetcode Solution(2)
             </a>
@@ -322,6 +362,10 @@
     <div class="col-xs-6 col-sm-6 col-md-3 col-lg-3 recent-posts">
         <h2>Recent Posts</h2>
         <ul>
+            
+            <li>
+                <a class="footer-post" href="/2022/07/27/JYT-s-Leetcode-Solution-3/">JYT&#39;s Leetcode Solution(3</a>
+            </li>
             
             <li>
                 <a class="footer-post" href="/2022/07/15/JYT-s-Leetcode-Solution-2/">JYT&#39;s Leetcode Solution(2</a>
